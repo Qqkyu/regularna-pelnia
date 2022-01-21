@@ -1,0 +1,10 @@
+1)
+Dane:
+  Brak
+Działanie:
+  Sprawdzenie, czy w wyrażeniu regularnym jest gdziekolwiek a*, jeśli nie, wyrażenie regularne nie wygeneruje języka pełnego
+2)
+Dane
+  - W wyrażeniu regularnym znajduje się a*
+Działanie:
+  Sprawdzenie, czy gdziekolwiek w wyrażeniu regularnym jest skonkatenowane a z a*, jeśli tak, wyrażenie regularne nie wygeneruje języka pełnego
