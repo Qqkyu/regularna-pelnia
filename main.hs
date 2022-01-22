@@ -1,4 +1,6 @@
 import System.IO
+import AlgorithmStep1
+import AlgorithmStep2
 
 printAllowedRegexCharacters :: IO ()
 printAllowedRegexCharacters = do
@@ -6,23 +8,12 @@ printAllowedRegexCharacters = do
   putStrLn "a - literal character"
   putStrLn "e - empty string (epsilon)"
   putStrLn "Allowed operations:"
-  putStrLn "(R*) - Kleene star"
-  putStrLn "(RS) - concatenation"
-  putStrLn "(R+S) - alternation"
+  putStrLn "R* - Kleene star"
+  putStrLn "RS - concatenation"
+  putStrLn "R+S - alternation"
+  putStrLn "Additional information:"
   putStrLn "Unnested parentheses allowed"
-
-contains :: String -> String -> Bool
-contains str subStr
-  | length str < length subStr         = False
-  | length str == length subStr        = str == subStr
-  | take (length subStr) str == subStr = True
-  | otherwise                          = contains (tail str) subStr
-
-doesAlgorithmStep1Pass :: String -> Bool
-doesAlgorithmStep1Pass = flip contains "a*"
-
-doesAlgorithmStep2Pass :: String -> Bool
-doesAlgorithmStep2Pass r = not ((flip contains r "aa*") || (flip contains r "a*a"))
+  putStrLn "Redundant parentheses forbidden"
 
 generatesFullLanguage :: String -> Bool
 generatesFullLanguage r = True

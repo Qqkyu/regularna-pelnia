@@ -1,10 +1,45 @@
+3 typy języków generowanych przez wyrażenia regularne: 
+  (1) tylko epsilon - {e}
+  (2) podzbiór języka pełnego bez {e} (np.: {a, aaaa, aaaaaaaa} lub {a, e})
+  (3) a*
+
 1)
 Dane:
   Brak
 Działanie:
-  Sprawdzenie, czy w wyrażeniu regularnym jest gdziekolwiek a*, jeśli nie, wyrażenie regularne nie wygeneruje języka pełnego
-2)
-Dane
-  - W wyrażeniu regularnym znajduje się a*
+  Czy w wyrażeniu regularnym jest gdziekolwiek a*?
+  - Nie:
+    - wyrażenie regularne nie generuje języka pełnego
+  - Tak:
+    - w wyrażeniu regularnym znajduje się a*
+
+2) 
+Dane:
+  - wyrażenie regularne
+  - w wyrażeniu regularnym znajduje się a*
 Działanie:
-  Sprawdzenie, czy gdziekolwiek w wyrażeniu regularnym jest skonkatenowane a z a*, jeśli tak, wyrażenie regularne nie wygeneruje języka pełnego
+  Pozbycie się nawiasów poprzez przekształcenie wyrażenia regularnego na mniejsze części, np. "a+(a+e)(a*e)+a*e" -> ["a+","a+e","a*e","+a*e"]
+
+3)
+Dane:
+  - wyrażenie regularne pogrupowane na części odpowiadające nawiasom
+  - w wyrażeniu regularnym znajduje się a*
+Działanie:
+  Zmapowanie każdej "części" na odpowiedni typ języka, który generuje, np. "aa* + e" + a mapuje się do "3 + 1"
+
+4)
+Dane:
+  - wyrażenie regularne pogrupowane na części
+  - każda podczęść zamieniona na język który generuje
+  - w wyrażeniu regularnym znajduje się a*
+Działanie:
+  Przypisanie każdej części języka który generuje
+  - przejście przez wszystkie części i sprawdzenie, jakie języki one generują 
+  - przypisanie typu języka do każdego z nawiasów pozwala stwierdzić, czy wyrażenie regularne generuje język pełny
+  - łączenie nawiasów:
+    - alternatywa - rekurencyjnie sprawdzamy czy którakolwiek ze stron generuje język pełny
+    - konkatenacja:
+      - (1) i (1) = (1)
+      - (1) i (2) = (2) + epsilon
+      - (1) i (3) = (3)
+      - (2) i (3) = (3)
