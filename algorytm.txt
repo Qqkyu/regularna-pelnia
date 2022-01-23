@@ -5,9 +5,15 @@
   wyrażenia postaci "a*" - (X) a*
   wyrażenia skonkatenowane: (N[n1..m1,n2..m2,..]) - podzbiór języka pełnego bez n1-m1,n2-m2,..
 
-1)
+0)
 Dane:
   Brak
+Działanie:
+  Usunięcie wszystkich spacji
+
+1)
+Dane:
+  - wyrażenie regularne nie zawiera spacji
 Działanie:
   Czy w wyrażeniu regularnym jest gdziekolwiek a*?
   - Nie:
@@ -52,16 +58,24 @@ Działanie:
     (X) i (X) - (X)
 
 5)
-  - łączenie nawiasów:
-    - alternatywa - rekurencyjnie sprawdzamy czy którakolwiek ze stron generuje język pełny
-    - konkatenacja:
-      (0) i (0) - (0)
-      (0) i (M[n]) - M[n]
-      (0) i (P[n]) - P[0,n]
-      (0) i (X) - (X)
-      (M[n) i (M[m]) - (M[n+m+1])
-      (M[n]) i (P[m]) - (M[n+m])
-      (M[n]) i (X) - (M[n])
-      (P[n]) i (P[m]) - (P[n+m])
-      (P[n]) i (X) - (M[n-1])
-      (X) i (X) - (X)
+Dane:
+  - w wyrażeniu regularnym znajduje się a*
+  - wyrażenie regularne pogrupowane na części
+  - każda część zamieniona na język który generuje: 0, M, P, N, X
+  - przykładowe wejście: ["P[1]","+","P[0,1]","X","+","X"]
+Działanie:
+  Złączenie skonkatenowanych wyrażeń regularnych w jedno, np. ["P[1]","+","P[0,1]","X","+","X"] -> ["P[1]","+","X","+","X"]
+  - konkatenacja:
+    (0) i (0) - (0)
+    (0) i (M[n]) - M[n]
+    (0) i (P[n1,n2,..]) - P[n1,n2,..]
+    (0) i (N[x1..y1,x2..y2,..]) - N[x1..y1,x2..y2,..]
+    (0) i (X) - (X)
+    (M[n) i (M[m]) - (M[n+m-1])
+    (M[n]) i (P[n1,n2,..]) - k = najmniejsze (n1,n2,..), M[k]
+    (M[n]) i (N[x1..y1,x2..y2,..]) - M[y1 + 1 + n]
+    (M[n]) i (X) - (M[n])
+    (P[n]) i (P[m]) - (P[n+m])
+    (P[n]) i (X) - (M[n-1])
+    (P[n]) i (N[x1..y1,x2..y2,..]) - ??
+    (X) i (X) - (X)
