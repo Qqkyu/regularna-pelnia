@@ -1,7 +1,8 @@
-3 typy języków generowanych przez wyrażenia regularne: 
-  (1) tylko epsilon - {e}
-  (2) podzbiór języka pełnego bez {e} (np.: {a, aaaa, aaaaaaaa} lub {a, e})
-  (3) a*
+4 typy języków generowanych przez wyrażenia regularne: 
+  (0) tylko epsilon - {e}
+  (M[n1,n2,..]) podzbiór języka pełnego bez n1,n2,.., np. dla -[1,2] {e,aaa,aaaa,..}
+  (P[n1,n2,..]) podzbiór języka pełnego zawierający n1,n2,.., np. dla +[1,2] {a,aa}
+  (X) a*
 
 1)
 Dane:
@@ -25,7 +26,7 @@ Dane:
   - wyrażenie regularne pogrupowane na części odpowiadające nawiasom
   - w wyrażeniu regularnym znajduje się a*
 Działanie:
-  Zmapowanie każdej "części" na odpowiedni typ języka, który generuje, np. "aa* + e" + a mapuje się do "3 + 1"
+  Zmapowanie każdej "części" na odpowiedni typ języka, który generuje, np. "aa*+e+a*+aaa" + a mapuje się do "M[0]+0+X+P[3]"
 
 4)
 Dane:

@@ -1,38 +1,33 @@
-isForwardConcatenated :: String -> Bool
-isForwardConcatenated [] = False
-isForwardConcatenated (a : as)
-  | a /= 'a' && a /= 'e' = False
-  | a == 'a'              = True
-  | otherwise            = isForwardConcatenated as
+module AlgorithmStep3 where
+import AlgorithmStep1
+import Utilities
 
-isBackwardConcatenated :: String -> Bool
-isBackwardConcatenated a = isForwardConcatenated $ reverse a
-
-isLiteralConcatenated :: String -> String -> Bool
-isLiteralConcatenated prevString nextString =
-  (isForwardConcatenated nextString) || (isBackwardConcatenated prevString)
-
-checkStep2 :: Char -> String -> String -> Bool
-checkStep2 prevChar prevString [] = True
-checkStep2 prevChar prevString (curChar : nextString) =
-  if prevChar == 'a' && curChar == '*' then
-    nextStep && not (isLiteralConcatenated (init prevString) nextString)
+mapSinglePart :: String -> String
+mapSinglePart r =
+  if algorithmStep1 r then  -- r contains a*
+    if generatesFullLanguage r then -- 4th type language
+      "X"
+    else
+      "M[" ++ (show $ ((countLiteralOccurences r) - countLiteralKleeneStarOccurences r) - 1) ++ "]"
   else
-    nextStep
-  where
-    nextStep = checkStep2 curChar (prevString ++ [curChar]) nextString
-
-doesAlgorithmStep2Pass :: String -> Bool
-doesAlgorithmStep2Pass r
-  | length r <= 2 = True
-  | otherwise     = checkStep2 (head r) [(head r)] (tail r)
+    if r == "e" then
+      "0"
+    else
+      "P[" ++ (show $ countLiteralOccurences r) ++ "]"
 
 mapRegex :: String -> String
 mapRegex r =
-    
+  if curRegex == "" then
+    '+' : mapRegex (tail nextRegex)
+  else
+    if shouldMapNextRegex then
+      (mapSinglePart curRegex) ++ ['+'] ++ (mapRegex (tail nextRegex))
+    else
+      mapSinglePart curRegex ++ nextRegex
   where
-    curRegex = takeWhile (\x -> x /= '*' && x /= '+') r
-    nextRegex = tail (dropWhile (\x -> x /= '*' && x /= '+') r)
+    curRegex = takeWhile (\x -> x /= '+') r
+    nextRegex = dropWhile (\x -> x /= '+') r
+    shouldMapNextRegex = (length nextRegex > 1)
 
 algorithmStep3 :: [String] -> [String]
 algorithmStep3 = map mapRegex
