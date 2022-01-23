@@ -19,7 +19,7 @@ Dane:
   - wyrażenie regularne
   - w wyrażeniu regularnym znajduje się a*
 Działanie:
-  Pozbycie się nawiasów poprzez przekształcenie wyrażenia regularnego na mniejsze części, np. "a+(a+e)(a*e)+a*e" -> ["a+","a+e","a*e","+a*e"]
+  Pozbycie się nawiasów poprzez przekształcenie wyrażenia regularnego na mniejsze części, np. "a+(a+e)(a*e)+a*e" -> ["a","+","a+e","a*e","+","a*e"]
 
 3)
 Dane:

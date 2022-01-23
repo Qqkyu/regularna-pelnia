@@ -17,8 +17,8 @@ mapSinglePart r =
 
 mapRegex :: String -> String
 mapRegex r =
-  if curRegex == "" then
-    '+' : mapRegex (tail nextRegex)
+  if r == "+" then
+    "+"
   else
     if shouldMapNextRegex then
       (mapSinglePart curRegex) ++ ['+'] ++ (mapRegex (tail nextRegex))
