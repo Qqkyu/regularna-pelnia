@@ -14,6 +14,7 @@ printAllowedRegexCharacters = do
   putStrLn "Additional information:"
   putStrLn "Unnested parentheses allowed"
   putStrLn "Redundant parentheses forbidden"
+  putStrLn "Max one alternation in one part (a+a+a disallowed)"
 
 generatesFullLanguage :: String -> Bool
 generatesFullLanguage r = True

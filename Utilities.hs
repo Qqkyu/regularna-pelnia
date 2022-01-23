@@ -54,3 +54,13 @@ countLiteralKleeneStarOccurences :: String -> Int
 countLiteralKleeneStarOccurences s
   | length s < 2 = 0
   | otherwise    = countLiteralKleeneStarOccurencesHelper (head s) (tail s)
+
+-- extract number from parts like M[n], P[n] (works also for N[n1,n2])
+findNumber :: String -> String
+findNumber p =
+  tail (takeWhile (\x -> x /= ']') (dropWhile (\x -> x /= '[') p))
+
+-- extract number from parts like M[n], P[n] and convert to int (works also for N[n1,n2])
+findNumberInt :: String -> Int
+findNumberInt p =
+  read (tail (takeWhile (\x -> x /= ']') (dropWhile (\x -> x /= '[') p))) :: Int
