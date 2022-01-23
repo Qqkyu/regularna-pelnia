@@ -1,8 +1,8 @@
 4 typy języków generowanych przez wyrażenia regularne: 
-  (0) tylko epsilon - {e}
-  (M[n1,n2,..]) podzbiór języka pełnego bez n1,n2,.., np. dla -[1,2] {e,aaa,aaaa,..}
-  (P[n1,n2,..]) podzbiór języka pełnego zawierający n1,n2,.., np. dla +[1,2] {a,aa}
-  (X) a*
+  wyrażenia postaci "e" - (0) tylko epsilon - {e}
+  wyrażenia postaci "aa*" - (M[n]) podzbiór języka pełnego bez 0,1,..,n, np. dla M[2] {aaa,aaaa,..}
+  wyrażenia postaci "aaa" - (P[n1,n2,..]) podzbiór języka pełnego zawierający n1,n2,.., np. dla [1,2] {a,aa}
+  wyrażenia postaci "a*" - (X) a*
 
 1)
 Dane:
@@ -31,7 +31,7 @@ Działanie:
 4)
 Dane:
   - wyrażenie regularne pogrupowane na części
-  - każda podczęść zamieniona na język który generuje
+  - każda podczęść zamieniona na język który generuje: 0, M[n], P[n], X
   - w wyrażeniu regularnym znajduje się a*
 Działanie:
   Przypisanie każdej części języka który generuje
@@ -40,7 +40,14 @@ Działanie:
   - łączenie nawiasów:
     - alternatywa - rekurencyjnie sprawdzamy czy którakolwiek ze stron generuje język pełny
     - konkatenacja:
-      - (1) i (1) = (1)
-      - (1) i (2) = (2) + epsilon
-      - (1) i (3) = (3)
-      - (2) i (3) = (3)
+      (0) i (0) - (0)
+      (0) i (M[n]) - M[n]
+      (0) i (P[n]) - if n == 0 then P[n] else P[0,n]
+      (0) i (X) - (X)
+      (M[n) i (M[m]) - (M[n+m+1])
+      (M[n]) i (P[m]) - (M[n+m])
+      (M[n]) i (X) - (M[n])
+      (P[n]) i (P[m]) - (P[n+m])
+      (P[n]) i (X) - (M[n-1])
+      (X) i (X) - (X)
+
