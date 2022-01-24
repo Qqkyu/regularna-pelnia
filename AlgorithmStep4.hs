@@ -16,7 +16,7 @@ handleOtherLanguageEpsilon r rLanguage =
     if findNumber r == "0" then
       "X"
     else
-      "N[1." ++ (findNumber r) ++ "]"
+      "0+M[" ++ (findNumber r) ++ "]"
   else
     if rLanguage == 'P' then
       "P[0," ++ (findNumber r) ++ "]"
@@ -45,7 +45,7 @@ handleOtherLanguageM other r rLanguage =
       if findNumberInt other <= findNumberInt r then
         "M[" ++ (show ((findNumberInt r) - (findNumberInt other))) ++ "]"
       else
-        "N[0." ++ (show ((findNumberInt r) - 1)) ++ "," ++ (show ((findNumberInt r) + 1)) ++ "." ++ (findNumber other) ++ "]"
+        "M[" ++ (findNumber other) ++ "]+P[" ++ (findNumber r) ++ "]"
     else
       "X"
 

@@ -3,7 +3,6 @@
   wyrażenia postaci "aa*" - (M[n]) podzbiór języka pełnego bez 0,1,..,n, np. dla M[2] {aaa,aaaa,..}
   wyrażenia postaci "aaa" - (P[n1,n2,..]) podzbiór języka pełnego zawierający n1,n2,.., np. dla [1,2] {a,aa}
   wyrażenia postaci "a*" - (X) a*
-  wyrażenia skonkatenowane: (N[n1..m1,n2..m2,..]) - podzbiór języka pełnego bez n1-m1,n2-m2,..
 
 0)
 Dane:
@@ -47,11 +46,11 @@ Działanie:
   - przypisanie typu języka do każdego z nawiasów pozwala stwierdzić, czy wyrażenie regularne generuje język pełny
   - alternatywa:
     (0) i (0) - (0)
-    (0) i (M[n]) - if n == 0 then X else N[1..n]
+    (0) i (M[n]) - if n == 0 then X else 0+M[n]
     (0) i (P[n]) - P[0,n]
     (0) i (X) - (X)
     (M[n]) i (M[m]) - if n < m then M[n] else M[m]
-    (M[n]) i (P[m]) - if n <= m then M[m-n] else N[0..m-1,m+1..n]
+    (M[n]) i (P[m]) - if n <= m then M[m-n] else M[n]+P[m]
     (M[n]) i (X) - (X)
     (P[n]) i (P[m]) - (P[n,m])
     (P[n]) i (X) - (X)
@@ -69,13 +68,10 @@ Działanie:
     (0) i (0) - (0)
     (0) i (M[n]) - M[n]
     (0) i (P[n1,n2,..]) - P[n1,n2,..]
-    (0) i (N[x1..y1,x2..y2,..]) - N[x1..y1,x2..y2,..]
     (0) i (X) - (X)
-    (M[n) i (M[m]) - (M[n+m-1])
+    (M[n) i (M[m]) - if n == 0 || m == 0 then (M[n+m+1]) else (M[n+m-1])
     (M[n]) i (P[n1,n2,..]) - k = najmniejsze (n1,n2,..), M[k]
-    (M[n]) i (N[x1..y1,x2..y2,..]) - M[y1 + 1 + n]
     (M[n]) i (X) - (M[n])
-    (P[n]) i (P[m]) - (P[n+m])
+    (P[n1,n2,..]) i (P[m1,m2,..]) - (P[n1+m1,n1+m2,..,n2+m1,n2+m2,..])
     (P[n]) i (X) - (M[n-1])
-    (P[n]) i (N[x1..y1,x2..y2,..]) - ??
     (X) i (X) - (X)

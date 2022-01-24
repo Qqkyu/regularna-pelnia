@@ -64,3 +64,58 @@ findNumber p =
 findNumberInt :: String -> Int
 findNumberInt p =
   read (tail (takeWhile (\x -> x /= ']') (dropWhile (\x -> x /= '[') p))) :: Int
+
+findSmallestFromListHelper :: String -> String -> String
+findSmallestFromListHelper prev list =
+  if length list == 0 then
+    prev
+  else
+    if (read prev :: Int) < (read cur :: Int) then
+      findSmallestFromListHelper prev newList
+    else
+      findSmallestFromListHelper cur newList
+  where
+    cur = takeWhile (\x -> x /= ',') (tail list)
+    newList = dropWhile (\x -> x /= ',') (tail list)
+
+-- extract smallest number from list - ("[1,2,3]" -> "1")
+findSmallestFromList :: String -> String
+findSmallestFromList p = findSmallestFromListHelper first newList
+  where
+    list = findNumber p
+    first = takeWhile (\x -> x /= ',') list
+    newList = dropWhile (\x -> x /= ',') list
+
+addNumToList :: String -> String -> String
+addNumToList num list = 
+  if length list == 0 then
+    ""
+  else
+    if rest /= "" then
+      (show ((read num :: Int) + (read cur :: Int))) ++ "," ++ rest
+    else
+      show ((read num :: Int) + (read cur :: Int))
+  where
+    cur = takeWhile (\x -> x /= ',') list
+    newList = drop 1 (dropWhile (\x -> x /= ',') list)
+    rest = addNumToList num newList
+
+addListsHelper :: String -> String -> String
+addListsHelper lhsList rhsList =
+  if length lhsList == 0 then
+    ""
+  else
+    if rest /= "" then
+      (addNumToList cur rhsList) ++ "," ++ rest
+    else
+      addNumToList cur rhsList
+  where
+    cur = takeWhile (\x -> x /= ',') lhsList
+    newLhsList = drop 1 (dropWhile (\x -> x /= ',') lhsList)
+    rest = addListsHelper newLhsList rhsList
+
+addLists :: String -> String -> String
+addLists lhs rhs = addListsHelper lhsList rhsList
+  where
+    lhsList = findNumber lhs
+    rhsList = findNumber rhs
