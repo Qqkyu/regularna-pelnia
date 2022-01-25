@@ -69,9 +69,9 @@ Działanie:
     (0) i (M[n]) - M[n]
     (0) i (P[n1,n2,..]) - P[n1,n2,..]
     (0) i (X) - (X)
-    (M[n) i (M[m]) - if n == 0 || m == 0 then (M[n+m+1]) else (M[n+m-1])
-    (M[n]) i (P[n1,n2,..]) - k = najmniejsze (n1,n2,..), M[k]
+    (M[n) i (M[m]) - M[n+m+1]
+    (M[n]) i (P[n1,n2,..]) - k = najmniejsze (n1,n2,..), M[k+n]
     (M[n]) i (X) - (M[n])
     (P[n1,n2,..]) i (P[m1,m2,..]) - (P[n1+m1,n1+m2,..,n2+m1,n2+m2,..])
-    (P[n]) i (X) - (M[n-1])
+    (P[n1,n2,..]) i (X) - k = najmniejsze (n1,n2,..), if k == 0 then X else (M[k-1])
     (X) i (X) - (X)

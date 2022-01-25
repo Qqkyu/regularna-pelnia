@@ -29,7 +29,7 @@ handleOtherLanguageM other r rLanguage =
     "M[" ++ (show ((findNumberInt r) + (findNumberInt other) + 1)) ++ "]"
   else
     if rLanguage == 'P' then
-      "M[" ++ (findSmallestFromList r) ++ "]"
+      "M[" ++ (show ((read (findSmallestFromList r) :: Int) + (findNumberInt other))) ++ "]"
     else
       "M[" ++ (findNumber other) ++ "]"
 
@@ -45,7 +45,10 @@ handleOtherLanguageP other r rLanguage =
   if rLanguage == 'P' then
     "P[" ++ (addLists r other) ++ "]"
   else
-    "M[" ++ (show ((findNumberInt r) - 1)) ++ "]"
+    if findSmallestFromList other == "0" then
+      "X"
+    else
+      "M[" ++ (show ((read (findSmallestFromList other) :: Int) - 1)) ++ "]"
 
 handleOneLanguageP :: String -> String -> Char -> Char -> String
 handleOneLanguageP lhs rhs lhsLanguage rhsLanguage =
@@ -71,13 +74,14 @@ concatenateLanguages lhs rhs =
     rhsLanguage = head rhs
 
 removeConcatenation :: String -> [String] -> [String]
+removeConcatenation prev [] = [prev]
 removeConcatenation prev (cur : lang) =
   if (isLanguage prev) && (isLanguage cur) then
-    [""]
+    removeConcatenation (concatenateLanguages prev cur) lang
   else
-    [""]
+    prev : (removeConcatenation cur lang)
 
 algorithmStep5 :: [String] -> [String]
 algorithmStep5 langs
   | length langs < 2 = langs
-  | otherwise        = removeConcatenation "" langs
+  | otherwise        = removeConcatenation (head langs) (tail langs)
