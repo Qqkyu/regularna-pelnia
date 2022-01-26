@@ -1,6 +1,9 @@
 import System.IO
 import AlgorithmStep1
 import AlgorithmStep2
+import AlgorithmStep3
+import AlgorithmStep4
+import AlgorithmStep5
 
 removeSpaces :: String -> String
 removeSpaces [] = []
@@ -26,8 +29,15 @@ printAllowedRegexCharacters = do
 generatesFullLanguage :: String -> Bool
 generatesFullLanguage r = True
 
+algorithm :: String -> [String]
+algorithm r =
+  if algorithmStep1 r then
+    algorithmStep5 $ algorithmStep4 $ algorithmStep3 $ algorithmStep2 r
+  else
+    ["Regex doesn't generate full language"]
+
 main :: IO ()
 main = do
   printAllowedRegexCharacters
   r <- getLine
-  print "End of program"
+  print $ algorithm $ removeSpaces r

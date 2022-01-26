@@ -65,13 +65,16 @@ Dane:
 Działanie:
   Złączenie skonkatenowanych wyrażeń regularnych w jedno, np. ["P[1]","+","P[0,1]","X","+","X"] -> ["P[1]","+","X","+","X"]
   - konkatenacja:
-    (0) i (0) - (0)
-    (0) i (M[n]) - M[n]
-    (0) i (P[n1,n2,..]) - P[n1,n2,..]
-    (0) i (X) - (X)
+    (0) i (<anything>) - <anything>
     (M[n) i (M[m]) - M[n+m+1]
     (M[n]) i (P[n1,n2,..]) - k = najmniejsze (n1,n2,..), M[k+n]
     (M[n]) i (X) - (M[n])
+    (M[n]) i (0+M[n]) - M[n]
+    (M[n]) i (M[k]+P[m]) - if k <= m then M[n+m] else M[n+k+1]
     (P[n1,n2,..]) i (P[m1,m2,..]) - (P[n1+m1,n1+m2,..,n2+m1,n2+m2,..])
     (P[n1,n2,..]) i (X) - k = najmniejsze (n1,n2,..), if k == 0 then X else (M[k-1])
+    (P[n1,n2,..]) i (0+M[n]) - k = najmniejsze (n1,n2,..), P[n1,n2,..]+M[n+k]
+    (P[n1,n2,..]) i (M[w]+P[m]) - k = najmniejsze (n1,n2,..), M[k+w]+P[n1+m,n2+m,..]
     (X) i (X) - (X)
+    (X) i (0+M[n]) - (X)
+    (X) i (M[n]+P[m]) - M[n]+M[m-1]

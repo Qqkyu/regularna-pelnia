@@ -1,5 +1,14 @@
 module Utilities where
 
+findLhs :: String -> String
+findLhs = takeWhile (/='+')
+
+findRhs :: String -> String
+findRhs r = takeWhile (/='+') (tail (dropWhile (/='+') r))
+
+findRest :: String -> String
+findRest r = dropWhile (/='+') (tail (dropWhile (/='+') r))
+
 isForwardConcatenated :: String -> Bool
 isForwardConcatenated [] = False
 isForwardConcatenated (a : as)

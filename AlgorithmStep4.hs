@@ -1,22 +1,13 @@
 module AlgorithmStep4 where
 import Utilities
 
-findLhs :: String -> String
-findLhs = takeWhile (/='+')
-
-findRhs :: String -> String
-findRhs r = takeWhile (/='+') (tail (dropWhile (/='+') r))
-
-findRest :: String -> String
-findRest r = dropWhile (/='+') (tail (dropWhile (/='+') r))
-
 handleOtherLanguageEpsilon :: String -> Char -> String
 handleOtherLanguageEpsilon r rLanguage =
   if rLanguage == 'M' then
     if findNumber r == "0" then
       "X"
     else
-      "0+M[" ++ (findNumber r) ++ "]"
+      "(0+M[" ++ (findNumber r) ++ "])"
   else
     if rLanguage == 'P' then
       "P[0," ++ (findNumber r) ++ "]"
@@ -45,7 +36,7 @@ handleOtherLanguageM other r rLanguage =
       if findNumberInt other <= findNumberInt r then
         "M[" ++ (show ((findNumberInt r) - (findNumberInt other))) ++ "]"
       else
-        "M[" ++ (findNumber other) ++ "]+P[" ++ (findNumber r) ++ "]"
+        "(M[" ++ (findNumber other) ++ "]+P[" ++ (findNumber r) ++ "])"
     else
       "X"
 

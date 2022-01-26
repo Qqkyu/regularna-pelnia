@@ -1,27 +1,41 @@
+module AlgorithmStep5 where
 import Utilities
 
 isLanguage :: String -> Bool
 isLanguage = ("+" /=)
 
+isSecondTypeParens :: String -> Bool
+isSecondTypeParens s = contains s "P"
+
 handleOtherLanguageEpsilon :: String -> Char -> String
-handleOtherLanguageEpsilon r rLanguage =
-  if rLanguage == 'M' then
-    "M[" ++ (findNumber r) ++ "]"
-  else
-    if rLanguage == 'P' then
-      "P[" ++ (findNumber r) ++ "]"
-    else
-      if rLanguage == '0' then
-        "0"
-      else
-        "X"
+handleOtherLanguageEpsilon r rLanguage = r
 
 handleOneLanguageEpsilon :: String -> String -> Char -> Char -> String
 handleOneLanguageEpsilon lhs rhs lhsLanguage rhsLanguage =
-  if lhsLanguage == '0' then
+  if lhsLanguage == '0' && length lhs == 1 then
     handleOtherLanguageEpsilon rhs rhsLanguage
   else
     handleOtherLanguageEpsilon lhs lhsLanguage
+
+handleMAndSecondTypeParens :: String -> String -> String
+handleMAndSecondTypeParens parens other =
+  if parensLhsLanguage == 'M' then
+    if lhsNum <= rhsNum then
+      "M[" ++ (show (otherNum + rhsNum)) ++ "]"
+    else
+      "M[" ++ (show (otherNum + lhsNum + 1)) ++ "]"
+  else
+    if lhsNum > rhsNum then
+      "M[" ++ (show (otherNum + lhsNum)) ++ "]"
+    else
+      "M[" ++ (show (otherNum + rhsNum + 1)) ++ "]"
+  where
+    parensLhs = (tail (findLhs parens))
+    parensLhsLanguage = head parensLhs
+    parensRhs = (init (findRhs parens))
+    lhsNum = findNumberInt parensLhs
+    rhsNum = findNumberInt parensRhs
+    otherNum = findNumberInt other
 
 handleOtherLanguageM :: String -> String -> Char -> String
 handleOtherLanguageM other r rLanguage =
@@ -31,7 +45,13 @@ handleOtherLanguageM other r rLanguage =
     if rLanguage == 'P' then
       "M[" ++ (show ((read (findSmallestFromList r) :: Int) + (findNumberInt other))) ++ "]"
     else
-      "M[" ++ (findNumber other) ++ "]"
+      if rLanguage == 'X' then
+        "M[" ++ (findNumber other) ++ "]"
+      else
+        if isSecondTypeParens r then
+          handleMAndSecondTypeParens r other
+        else  
+          other
 
 handleOneLanguageM :: String -> String -> Char -> Char -> String
 handleOneLanguageM lhs rhs lhsLanguage rhsLanguage =
@@ -40,15 +60,39 @@ handleOneLanguageM lhs rhs lhsLanguage rhsLanguage =
   else
     handleOtherLanguageM rhs lhs lhsLanguage
 
+concatPAndFirstParens :: String -> String -> String
+concatPAndFirstParens pLang parens =
+  if parensLhs == "0" then
+    pLang ++ "+M[" ++ (show (findNumberInt (parensRhs) + smallestNumFromPInt)) ++ "]"
+  else
+    pLang ++ "+M[" ++ (show (findNumberInt (parensLhs) + smallestNumFromPInt)) ++ "]"
+  where
+    parensLhs = (tail (findLhs parens))
+    parensRhs = (init (findRhs parens))
+    smallestNumFromPInt = (read (findSmallestFromList pLang) :: Int)
+
+handlePAndSecondTypeParens :: String -> String -> String
+handlePAndSecondTypeParens parens other =
+  (concatenateLanguages other parensLhs) ++ "+" ++ (concatenateLanguages other  parensRhs)
+  where
+    parensLhs = (tail (findLhs parens))
+    parensRhs = (init (findRhs parens))
+
 handleOtherLanguageP :: String -> String -> Char -> String
 handleOtherLanguageP other r rLanguage =
   if rLanguage == 'P' then
     "P[" ++ (addLists r other) ++ "]"
   else
-    if findSmallestFromList other == "0" then
-      "X"
+    if rLanguage == 'X' then
+      if findSmallestFromList other == "0" then
+        "X"
+      else
+        "M[" ++ (show ((read (findSmallestFromList other) :: Int) - 1)) ++ "]"
     else
-      "M[" ++ (show ((read (findSmallestFromList other) :: Int) - 1)) ++ "]"
+      if isSecondTypeParens r then
+        handlePAndSecondTypeParens r other
+      else
+        concatPAndFirstParens other r
 
 handleOneLanguageP :: String -> String -> Char -> Char -> String
 handleOneLanguageP lhs rhs lhsLanguage rhsLanguage =
@@ -57,9 +101,16 @@ handleOneLanguageP lhs rhs lhsLanguage rhsLanguage =
   else
     handleOtherLanguageP rhs lhs lhsLanguage
 
+handleXAndSecondTypeParens :: String -> String
+handleXAndSecondTypeParens parens =
+  (concatenateLanguages "X" parensLhs) ++ "+" ++ (concatenateLanguages "X"  parensRhs)
+  where
+    parensLhs = (tail (findLhs parens))
+    parensRhs = (init (findRhs parens))
+
 concatenateLanguages :: String -> String -> String
 concatenateLanguages lhs rhs =
-  if lhsLanguage == '0' || rhsLanguage == '0' then
+  if (lhsLanguage == '0' && length lhs == 1) || (rhsLanguage == '0' && length rhs == 1) then
     handleOneLanguageEpsilon lhs rhs lhsLanguage rhsLanguage
   else
     if lhsLanguage == 'M' || rhsLanguage == 'M' then
@@ -68,7 +119,13 @@ concatenateLanguages lhs rhs =
       if lhsLanguage == 'P' || rhsLanguage == 'P' then
         handleOneLanguageP lhs rhs lhsLanguage rhsLanguage
       else
-        "X"
+        if isSecondTypeParens lhs || isSecondTypeParens rhs then
+          if isSecondTypeParens lhs then
+            handleXAndSecondTypeParens lhs
+          else
+            handleXAndSecondTypeParens rhs
+        else
+          "X"
   where
     lhsLanguage = head lhs
     rhsLanguage = head rhs
