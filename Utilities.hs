@@ -128,3 +128,18 @@ addLists lhs rhs = addListsHelper lhsList rhsList
   where
     lhsList = findNumber lhs
     rhsList = findNumber rhs
+
+takeWhileOneMore :: (a -> Bool) -> [a] -> [a]
+takeWhileOneMore p [] = []
+takeWhileOneMore p (x:xs) = 
+  if p x then 
+    x : takeWhileOneMore p xs
+  else
+    [x]
+
+splitStringByPlus :: String -> [String]
+splitStringByPlus [] = [""]
+splitStringByPlus (c : cs)
+  | c == '+'  = "" : "+" : rest
+  | otherwise = (c : head rest) : tail rest
+    where rest = splitStringByPlus cs

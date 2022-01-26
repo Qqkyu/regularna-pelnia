@@ -4,6 +4,7 @@ import AlgorithmStep2
 import AlgorithmStep3
 import AlgorithmStep4
 import AlgorithmStep5
+import AlgorithmStep6
 
 removeSpaces :: String -> String
 removeSpaces [] = []
@@ -32,12 +33,12 @@ generatesFullLanguage r = True
 algorithm :: String -> [String]
 algorithm r =
   if algorithmStep1 r then
-    algorithmStep5 $ algorithmStep4 $ algorithmStep3 $ algorithmStep2 r
+    algorithmStep6 $ algorithmStep5 $ algorithmStep4 $ algorithmStep3 $ algorithmStep2 r
   else
     ["Regex doesn't generate full language"]
 
 main :: IO ()
 main = do
-  printAllowedRegexCharacters
+  -- printAllowedRegexCharacters
   r <- getLine
   print $ algorithm $ removeSpaces r
