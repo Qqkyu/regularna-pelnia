@@ -65,7 +65,10 @@ split prev (r : rs) =
     (splitStringByPlus prev) ++ (split r rs)
   else
     if (last prev == ')') && (r /= "+") && (head r /= '(') then
-      ([prev] ++ (splitStringByPlus r)) ++ (split (last (splitStringByPlus r)) rs)
+      if (length $ splitStringByPlus r) == 1 then
+        [prev] ++ (split (last (splitStringByPlus r)) rs)
+      else
+        ([prev] ++ (splitStringByPlus r)) ++ (split (last (splitStringByPlus r)) rs)
     else
       [prev] ++ (split r rs)
 

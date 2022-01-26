@@ -84,4 +84,10 @@ Dane:
   - w wyrażeniu regularnym znajduje się a*
   - wyrażenie regularne pogrupowane na części
 Działanie:
-  - "spłaszczenie struktury" - tj np. ["M[n]+M[m]"] - ["M[n]","+","M[m]"]
+  - "spłaszczenie struktury" - tj np. ["M[n]+M[m]"] -> ["M[n]","+","M[m]"]
+
+7) 
+Dane:
+  - spłaszczona struktura wyrażenia regularnego
+Działanie:
+  - sprawdzenie, czy dana struktura tworzy język pełny

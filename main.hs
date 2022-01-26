@@ -40,9 +40,9 @@ algorithm r =
 
 main :: IO ()
 main = do
-  -- printAllowedRegexCharacters
+  printAllowedRegexCharacters
   r <- getLine
   if algorithm r then
-    print "Regular expression generates full language"
+    putStrLn "Regular expression generates full language"
   else
-    print "Regular expression does not generate full language"
+    putStrLn "Regular expression does not generate full language"
