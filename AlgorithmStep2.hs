@@ -59,17 +59,21 @@ algorithmStep2Helper r =
         ""
 
 split :: String -> [String] -> [String]
-split prev [] = []
+split prev [] = [prev]
 split prev (r : rs) =
-  if (last prev /= ')') && (head r == '(') then
+  if (last prev /= ')' ) && (prev /= "+") && (head r == '(') then
     (splitStringByPlus prev) ++ (split r rs)
   else
-    if (last prev == ')') && (head r /= '(') then
+    if (last prev == ')') && (r /= "+") && (head r /= '(') then
       ([prev] ++ (splitStringByPlus r)) ++ (split (last (splitStringByPlus r)) rs)
     else
       [prev] ++ (split r rs)
 
 algorithmStep2 :: String -> [String]
-algorithmStep2 r = split (head basicSplit) (tail basicSplit)
+algorithmStep2 r = 
+  if length basicSplit < 2 then
+    basicSplit
+  else
+    split (head basicSplit) (tail basicSplit)
   where
     basicSplit = algorithmStep2Helper r

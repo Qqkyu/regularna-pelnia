@@ -69,7 +69,7 @@ findNumber :: String -> String
 findNumber p =
   tail (takeWhile (\x -> x /= ']') (dropWhile (\x -> x /= '[') p))
 
--- extract number from parts like M[n], P[n] and convert to int (works also for N[n1,n2])
+-- extract number from parts like M[n], P[n] and convert to int
 findNumberInt :: String -> Int
 findNumberInt p =
   read (tail (takeWhile (\x -> x /= ']') (dropWhile (\x -> x /= '[') p))) :: Int
