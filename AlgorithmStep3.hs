@@ -1,10 +1,10 @@
 module AlgorithmStep3 where
-import AlgorithmStep1
+import AlgorithmStep0
 import Utilities
 
 mapSinglePart :: String -> String
 mapSinglePart r =
-  if algorithmStep1 r then  -- r contains a*
+  if algorithmStep0 r then  -- r contains a*
     if generatesFullLanguage r then -- 4th type language
       "X"
     else

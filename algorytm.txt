@@ -6,19 +6,19 @@
 
 0)
 Dane:
-  Brak
-Działanie:
-  Usunięcie wszystkich spacji oraz "spłaszczenie" struktury wyrażenia regularnego
-
-1)
-Dane:
-  - wyrażenie regularne nie zawiera spacji
+  - Brak
 Działanie:
   Czy w wyrażeniu regularnym jest gdziekolwiek a*?
   - Nie:
     - wyrażenie regularne nie generuje języka pełnego
   - Tak:
     - w wyrażeniu regularnym znajduje się a*
+
+1)
+Dane:
+  Brak
+Działanie:
+  Usunięcie wszystkich spacji oraz "spłaszczenie" struktury wyrażenia regularnego
 
 2) 
 Dane:
