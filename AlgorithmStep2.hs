@@ -12,31 +12,34 @@ getEmptyNewRegexResult rest =
 algorithmStep2Helper :: String -> [String]
 algorithmStep2Helper r =
   if length r /= 0 then
-    if length newRegex == 0 then
-      getEmptyNewRegexResult rest
+    if head r == '+' then
+      ["+"] ++ (algorithmStep2Helper $ tail r)
     else
-      if length rest == 0 then
-        if head newRegex == '+' then
-          if last newRegex == '+' then
-            ["+", tail (init newRegex), "+"]
-          else
-            ["+", tail newRegex]
-        else
-          if last newRegex == '+' then
-            [init newRegex, "+"]
-          else
-            [newRegex]
+      if length newRegex == 0 then
+        getEmptyNewRegexResult rest
       else
-        if head newRegex == '+' then
-          if last newRegex == '+' then
-            ["+", tail (init newRegex), "+"] ++ algorithmStep2Helper rest
+        if length rest == 0 then
+          if head newRegex == '+' then
+            if last newRegex == '+' then
+              ["+", tail (init newRegex), "+"]
+            else
+              ["+", tail newRegex]
           else
-            ["+", tail newRegex] ++ algorithmStep2Helper rest
+            if last newRegex == '+' then
+              [init newRegex, "+"]
+            else
+              [newRegex]
         else
-          if last newRegex == '+' then
-            [init newRegex, "+"] ++ algorithmStep2Helper rest
+          if head newRegex == '+' then
+            if last newRegex == '+' then
+              ["+", tail (init newRegex), "+"] ++ algorithmStep2Helper rest
+            else
+              ["+", tail newRegex] ++ algorithmStep2Helper rest
           else
-            [newRegex] ++ algorithmStep2Helper rest
+            if last newRegex == '+' then
+              [init newRegex, "+"] ++ algorithmStep2Helper rest
+            else
+              [newRegex] ++ algorithmStep2Helper rest
   else
     []
   where
@@ -52,7 +55,7 @@ algorithmStep2Helper r =
     rest =
       if length r /= 0 then
         if ongoingRegex then
-          tail (dropWhile (')'/=) (tail r))
+          tail (dropWhile (')'/=) (tail r)) -- ?? why tail
         else
           dropWhile ('('/=) (tail r)
       else
@@ -72,11 +75,35 @@ split prev (r : rs) =
     else
       [prev] ++ (split r rs)
 
+splitByPlus :: String -> [String]
+splitByPlus s =
+  if contains s "+" then
+    if contains rest "+" then
+      [curR] ++ ["+"] ++ splitByPlus rest
+    else
+      [curR] ++ ["+"] ++ [rest]
+  else
+    [s]
+  where
+    curR = takeWhile ('+'/=) s
+    rest = if (dropWhile ('+'/=) s) /= "" then tail (dropWhile ('+'/=) s) else ""
+
+splitByPlusIfNeeded :: [String] -> [String]
+splitByPlusIfNeeded [] = []
+splitByPlusIfNeeded (r : rs) =
+  if head r == '+' || head r == '(' then
+    r : splitByPlusIfNeeded rs
+  else
+    splitByPlus r ++ splitByPlusIfNeeded rs
+
 algorithmStep2 :: String -> [String]
 algorithmStep2 r = 
   if length basicSplit < 2 then
-    basicSplit
+    if length basicSplit == 0 then
+      []
+    else
+      splitByPlus $ head basicSplit
   else
-    split (head basicSplit) (tail basicSplit)
+    splitByPlusIfNeeded (split (head basicSplit) (tail basicSplit))
   where
     basicSplit = algorithmStep2Helper r

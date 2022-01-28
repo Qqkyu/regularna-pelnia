@@ -10,20 +10,23 @@ import AlgorithmStep7
 
 printAllowedRegexCharacters :: IO ()
 printAllowedRegexCharacters = do
-  putStrLn "---Allowed constants---"
+  putStrLn "-----Allowed constants-----"
   putStrLn "a - literal character"
   putStrLn "e - empty string (epsilon)"
-  putStrLn "---Allowed operations---"
+  putStrLn "-----Allowed operations-----"
   putStrLn "R* - Kleene star"
   putStrLn "RS - concatenation"
   putStrLn "R+S - alternation"
-  putStrLn "---Additional information---"
+  putStrLn "-----Additional information-----"
   putStrLn "Spaces allowed"
   putStrLn "Unnested parentheses allowed"
   putStrLn "Redundant parentheses forbidden"
 
-generatesFullLanguage :: String -> Bool
-generatesFullLanguage r = True
+prompt :: String -> IO String
+prompt text = do
+    putStr text
+    hFlush stdout
+    getLine
 
 algorithm :: String -> Bool
 algorithm r =
@@ -35,7 +38,7 @@ algorithm r =
 main :: IO ()
 main = do
   printAllowedRegexCharacters
-  r <- getLine
+  r <- prompt "Regular expression: "
   if algorithm r then
     putStrLn "Regular expression generates full language"
   else

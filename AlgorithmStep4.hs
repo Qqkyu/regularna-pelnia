@@ -34,7 +34,7 @@ handleOtherLanguageM other r rLanguage =
   else
     if rLanguage == 'P' then
       if findNumberInt other <= findNumberInt r then
-        "M[" ++ (show ((findNumberInt r) - (findNumberInt other))) ++ "]"
+        other
       else
         "(M[" ++ (findNumber other) ++ "]+P[" ++ (findNumber r) ++ "])"
     else
