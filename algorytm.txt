@@ -8,7 +8,7 @@
 Dane:
   Brak
 Działanie:
-  Usunięcie wszystkich spacji
+  Usunięcie wszystkich spacji oraz "spłaszczenie" struktury wyrażenia regularnego
 
 1)
 Dane:
