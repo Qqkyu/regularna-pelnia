@@ -143,3 +143,6 @@ splitStringByPlus (c : cs)
   | c == '+'  = "" : "+" : rest
   | otherwise = (c : head rest) : tail rest
     where rest = splitStringByPlus cs
+
+duplicate :: String -> Int -> String
+duplicate string n = concat $ replicate n string

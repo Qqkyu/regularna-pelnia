@@ -84,4 +84,8 @@ flattenStructure r =
     nextR = dropWhile (\x -> x /= '+' && x /= '(') r
 
 algorithmStep1 :: String -> String
-algorithmStep1 = flattenStructure . removeSpaces
+algorithmStep1 r = 
+  if contains r "(" then
+    (flattenStructure . removeSpaces) r
+  else
+    removeSpaces r

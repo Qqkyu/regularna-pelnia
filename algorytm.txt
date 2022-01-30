@@ -91,3 +91,5 @@ Dane:
   - spłaszczona struktura wyrażenia regularnego
 Działanie:
   - sprawdzenie, czy dana struktura tworzy język pełny
+
+Powyżej opisane kroki zachodzą rekurencyjnie dla zagnieżdżonych wyrażeń regularnych do momentu aż struktura wyrażenia będzie "płaska" - wtedy wykonywany jest krok 7 algorytmu

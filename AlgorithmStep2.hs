@@ -96,6 +96,17 @@ splitByPlusIfNeeded (r : rs) =
   else
     splitByPlus r ++ splitByPlusIfNeeded rs
 
+removeParens :: [String] -> [String]
+removeParens [] = []
+removeParens (l : ls) =
+  if length l < 3 || contains "+" l then
+    l : removeParens ls
+  else
+    if head l == '(' && length l == 3 then
+      (init $ tail l) : removeParens ls
+    else
+      l : removeParens ls
+
 algorithmStep2 :: String -> [String]
 algorithmStep2 r = 
   if length basicSplit < 2 then
@@ -106,4 +117,4 @@ algorithmStep2 r =
   else
     splitByPlusIfNeeded (split (head basicSplit) (tail basicSplit))
   where
-    basicSplit = algorithmStep2Helper r
+    basicSplit = removeParens $ algorithmStep2Helper r

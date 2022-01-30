@@ -50,9 +50,15 @@ processLangsList langs =
   where
     list = createList langs
 
+containsM :: [String] -> Bool
+containsM langs = (length . (filter (\x -> contains x "M"))) langs > 0
+
 algorithmStep7 :: [String] -> Bool
 algorithmStep7 langs =
   if "X" `elem` langs then
     True
   else
-    processLangsList langs
+    if containsM langs then
+      processLangsList langs
+    else
+      False
